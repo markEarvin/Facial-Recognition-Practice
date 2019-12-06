@@ -11,3 +11,4 @@ Roadmap for facial recognition mini project
 10. Video should run detection every 200ms and send the image from the stream to the NodeJS server.
 11. Server does the facial recognition and saves the data in a DB
 12. Frontend can pull the list of detected faces from DB
+13. Use react in Frontend
