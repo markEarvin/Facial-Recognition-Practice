@@ -1,0 +1,13 @@
+Roadmap for facial recognition mini project
+1. Study Tensorflow.js
+2. Study and interface with face-api.js
+3. Check tutorials of WebDevSimplified (Youtube and Github) on facial recognition and facial detection.
+4. Implement a sample Facial recognition PoC using images (use sample images, family?) hosted in GCS public bucket
+5. Extend the PoC to use video from webcam instead of stale images
+6. Use CPS images instead of sample image and check loading time
+7. Deploy in App Engine
+8. Migrate the detection and recognition part in the backend using Node.JS and create an API
+9. Frontend should only display video stream and detected faces using the face landmarks and a rectangle canvas on each face.
+10. Video should run detection every 200ms and send the image from the stream to the NodeJS server.
+11. Server does the facial recognition and saves the data in a DB
+12. Frontend can pull the list of detected faces from DB
