@@ -23,7 +23,7 @@ const imageUpload = document.getElementById('imageUpload');
         const resizedDetections = faceapi.resizeResults(detections, displaySize);
         resizedDetections.forEach(detection => {
             const box = detection.detection.box;
-            const drawBox = new faceapi.draw.drawBox(box, { label: "face" });
+            const drawBox = new faceapi.draw.DrawBox(box, { label: "face" });
             drawBox.draw(canvas);
         })
      });
