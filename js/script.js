@@ -7,6 +7,9 @@ const imageUpload = document.getElementById('imageUpload');
  ]).then(start);
 
  function start() {
+     const imgContainer = document.createElement('div');
+     imgContainer.style.position = 'relative';
+     document.body.append(imgContainer);
      document.body.append("Loaded");
      imageUpload.addEventListener('change', async () => {
         const image = await faceapi.bufferToImage(imageUpload.files[0]);
