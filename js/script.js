@@ -1,11 +1,11 @@
 const imageUpload = document.getElementById('imageUpload');
 
  Promise.all([
-    faceapi.nets.faceRecognitionNet.loadFromUri(''),
-    faceapi.nets.faceLandmark68Net.loadFromUri(''),
-    faceapi.nets.ssdMobilenetv1.loadFromUri('')
+    faceapi.nets.faceRecognitionNet.loadFromUri('../models'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('../models'),
+    faceapi.nets.ssdMobilenetv1.loadFromUri('../models')
  ]).then(start);
 
  function start() {
-     console.log("Start");
+     document.body.append("Loaded");
  }
