@@ -8,4 +8,9 @@ const imageUpload = document.getElementById('imageUpload');
 
  function start() {
      document.body.append("Loaded");
+     imageUpload.addEventListener('change', async () => {
+        const image = await faceapi.bufferToImage(imageUpload.files[0]);
+        const detections = await faceapi.detectAllFaces(image)
+        .withFaceLandmarks().withFaceDescriptors();
+     });
  }
