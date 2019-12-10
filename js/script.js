@@ -31,9 +31,10 @@ const imageUpload = document.getElementById('imageUpload');
         const detections = await faceapi.detectAllFaces(image)
         .withFaceLandmarks().withFaceDescriptors();
         const resizedDetections = faceapi.resizeResults(detections, displaySize);
-        resizedDetections.forEach(detection => {
-            const box = detection.detection.box;
-            const drawBox = new faceapi.draw.DrawBox(box, { label: "face" });
+        const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
+        results.forEach((result, i) => {
+            const box = resizedDetections[i].detection.box;
+            const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() });
             drawBox.draw(canvas);
         })
      });
