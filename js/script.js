@@ -43,20 +43,21 @@ const imageUpload = document.getElementById('imageUpload');
 
  function loadLabeledImages() {
     const gcsBucket = "lala_face_recognition_test";
-    // const labels = ['Ambo', 'Enteng', 'Earvin', 'Kenneth', 'Lala', 'MamaBear', 'Mommy', 'Obo', 'PapaBear'];
+    const labels = ['Ambo', 'Enteng', 'Earvin', 'Kenneth', 'Lala', 'MamaBear', 'Mommy', 'Obo', 'PapaBear'];
     // const labels = ['Ambo', 'Enteng', 'Earvin', 'MamaBear', 'Mommy', 'Obo', 'PapaBear'];
     // Ambo and PapaBear image samples are not working. Or at least one of those. The following array below works
     // const labels = ['Kenneth', 'Earvin','Obo', 'Lala', 'Mommy', 'Enteng', 'MamaBear'];
     // Ambo 1, 2, 4, and 5 .png are working. Not sure why 3 is not. Debugging...
-    const labels = ['Ambo'];
+    // const labels = ['Ambo'];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
         const maxImages = 5;
-        for (let i = 4; i <= maxImages; i++) {
+        for (let i = 1; i <= maxImages; i++) {
           const img = await faceapi.fetchImage(`https://storage.googleapis.com/${gcsBucket}/${label}/${i}.png`);
           const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-          descriptions.push(detections.descriptor);
+          console.log(detections);
+          if (detections) descriptions.push(detections.descriptor);
         }
   
         return new faceapi.LabeledFaceDescriptors(label, descriptions);
