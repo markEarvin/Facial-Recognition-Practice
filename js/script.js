@@ -6,7 +6,7 @@ const imageUpload = document.getElementById('imageUpload');
     faceapi.nets.ssdMobilenetv1.loadFromUri('../models')
  ]).then(start);
 
- function start() {
+ async function start() {
      const imgContainer = document.createElement('div');
      imgContainer.style.position = 'relative';
      document.body.append(imgContainer);
