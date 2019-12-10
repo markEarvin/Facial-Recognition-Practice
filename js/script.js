@@ -11,9 +11,17 @@ const imageUpload = document.getElementById('imageUpload');
      imgContainer.style.position = 'relative';
      document.body.append(imgContainer);
      document.body.append("Loaded");
+     let image;
+     let canvas;
      imageUpload.addEventListener('change', async () => {
-        const image = await faceapi.bufferToImage(imageUpload.files[0]);
-        const canvas = faceapi.createCanvasFromMedia(image);
+        if (image){
+            image.remove();
+        }
+        if (canvas){
+            canvas.remove();
+        }
+        image = await faceapi.bufferToImage(imageUpload.files[0]);
+        canvas = faceapi.createCanvasFromMedia(image);
         imgContainer.append(image);
         imgContainer.append(canvas);
         const displaySize = { width: image.width, height: image.height };
