@@ -36,3 +36,20 @@ const imageUpload = document.getElementById('imageUpload');
         })
      });
  }
+
+ function loadLabeledImages() {
+    const gcsBucket = "lala_face_recognition_test";
+    const labels = ['Ambo', 'Enteng', 'Earvin', 'Kenneth', 'Lala', 'MamaBear', 'Mommy', 'Obo', 'PapaBear'];
+    return Promise.all(
+      labels.map(async label => {
+        const descriptions = []
+        for (let i = 1; i <= 2; i++) {
+          const img = await faceapi.fetchImage(`https://storage.googleapis.com/${gcsBucket}/${label}/${i}.png`)
+          const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+          descriptions.push(detections.descriptor);
+        }
+  
+        return new faceapi.LabeledFaceDescriptors(label, descriptions);
+      })
+    );
+  }
