@@ -10,6 +10,8 @@ const imageUpload = document.getElementById('imageUpload');
      const imgContainer = document.createElement('div');
      imgContainer.style.position = 'relative';
      document.body.append(imgContainer);
+     const labeledDescriptors = await loadLabeledImages();
+     const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
      document.body.append("Loaded");
      let image;
      let canvas;
