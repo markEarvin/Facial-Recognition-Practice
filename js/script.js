@@ -21,7 +21,7 @@ function startVideo() {
     // configure mtcnn params
     const mtcnnParams = {
       // limiting the search space to larger faces for webcam detection, in pixels
-      minFaceSize: 200
+      minFaceSize: 100
     };
   
     const canvas = faceapi.createCanvasFromMedia(video);
