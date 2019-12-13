@@ -1,4 +1,11 @@
 const video = document.getElementById('video');
+const windowWidth = window.innerWidth;
+const windowHeight = window.innerHeight;
+
+if (windowWidth > windowHeight) {
+  video.style.height = windowHeight - 40;
+  video.style.width = windowWidth - 40;
+}
 
 Promise.all([
   faceapi.nets.mtcnn.loadFromUri('../models'),
@@ -28,6 +35,7 @@ function startVideo() {
     document.body.append(canvas);
     const displaySize = { width: video.width, height: video.height };
     faceapi.matchDimensions(canvas, displaySize);
+    document.getElementById('loading').style.display = 'none';
     setInterval(async () => {
       const options = new faceapi.MtcnnOptions(mtcnnParams);
       const fullFaceDescriptions = await faceapi.detectAllFaces(video, options).withFaceLandmarks().withFaceDescriptors();
@@ -49,7 +57,10 @@ function startVideo() {
 
  function loadLabeledImages() {
     const gcsBucket = "lala_face_recognition_test";
-    const labels = ['Ambo', 'Enteng', 'Earvin', 'Kenneth', 'Lala', 'MamaBear', 'Mommy', 'Obo', 'PapaBear'];
+    // Family
+    // const labels = ['Ambo', 'Enteng', 'Earvin', 'Kenneth', 'Lala', 'MamaBear', 'Mommy', 'Obo', 'PapaBear'];
+    // CPS
+    const labels = ['Earvin', 'Bea', 'Eric', 'Grae'];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
