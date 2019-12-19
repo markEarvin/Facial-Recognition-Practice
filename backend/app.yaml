@@ -12,6 +12,6 @@
 # limitations under the License.
 
 # [START app_yaml]
-runtime: nodejs810
+runtime: nodejs10
 service: nodebackend
 # [END app_yaml]
