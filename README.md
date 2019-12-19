@@ -13,3 +13,4 @@ Realtime JavaScript Face Tracking and Face Recognition using face-api.js’ MTCN
 face-api.js — JavaScript API for Face Recognition in the Browser with tensorflow.js - https://itnext.io/face-api-js-javascript-api-for-face-recognition-in-the-browser-with-tensorflow-js-bcc2a6c4cf07
 NodeJS body parse - https://stackabuse.com/get-http-post-body-in-express-js/
 Fetch API - https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+Making API request with Node Fetch - https://hackersandslackers.com/making-api-requests-with-nodejs/
