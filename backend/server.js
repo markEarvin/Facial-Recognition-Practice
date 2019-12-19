@@ -46,7 +46,18 @@ app.get('/new-detection', (req, res) => {
 
 //   Add new detections here
 app.post('/new-detection', (req, res) => {
-    console.log('Got body:', req.body);
+  console.log('Got body:', req.body);
+  let body = req.body;
+  body.timestamp = new Date();
+  try {
+    let txn = datastore.save({
+      key: datastore.key('detections'),
+      data: body,
+    });
+    console.log(txn);
+  } catch (error) {
+    console.log(error);
+  }
     res.send('Thank you for adding a new detection!');
   });
 
@@ -56,7 +67,47 @@ app.get('/detections', (req, res) => {
     res.send({"detected": detected});
   });
 
-  // for testing only
+const getDetections = () => {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate()-1);
+    const query = datastore
+      .createQuery('detections').filter('timestamp', '>', yesterday).filter('timestamp', '<=', today);
+    return datastore.runQuery(query);
+  };
+
+// tests here
+app.post('/new-test', (req, res) => {
+  console.log('Got body:', req.body);
+  let body = req.body;
+  body.timestamp = new Date();
+  try {
+    let txn = datastore.save({
+      key: datastore.key('test'),
+      data: body,
+    });
+    console.log(txn);
+  } catch (error) {
+    console.log(error);
+  }
+  res.send('Thank you for adding a new test!');
+});
+
+const getTests = () => {
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate()-1);
+  const query = datastore
+    .createQuery('test').filter('timestamp', '>', yesterday).filter('timestamp', '<=', today);
+  return datastore.runQuery(query);
+};
+
+app.get('/tests', async (req, res) => {
+  const [tests] = await getTests();
+  res.send({"tests": tests});
+});
+
+
 async function postData(url = '', data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
