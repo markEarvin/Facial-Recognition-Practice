@@ -71,7 +71,7 @@ app.get('/detections', async (req, res) => {
     let unique = [...new Set(names)];
     console.log(unique);
   
-    res.send({"tests": unique});
+    res.send({"Detected": unique});
   });
 
 const getDetections = () => {
