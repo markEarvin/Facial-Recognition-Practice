@@ -16,10 +16,26 @@
 'use strict';
 
 // [START app]
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
 
-app.get('/', (req, res) => {
+// export Datasore library
+const {Datastore} = require('@google-cloud/datastore');
+const datastore = new Datastore();
+// we will need this for testing
+const fetch = require('node-fetch');
+
+app.get('/', async (req, res) => {
+  try {
+    const data = await postData('http://localhost:8080/new-detection', { name: "Earvin", pet: "Doggies" });
+    // console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
   res.send('Hello world! I am alive!');
 });
 
@@ -30,6 +46,7 @@ app.get('/new-detection', (req, res) => {
 
 //   Add new detections here
 app.post('/new-detection', (req, res) => {
+    console.log('Got body:', req.body);
     res.send('Thank you for adding a new detection!');
   });
 
@@ -38,6 +55,26 @@ app.get('/detections', (req, res) => {
     let detected = [];
     res.send({"detected": detected});
   });
+
+  // for testing only
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrer: 'no-referrer', // no-referrer, *client
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return await response;
+}
+// ends testing here
 
 // Listen to the App Engine-specified port, or 8080 otherwise
 const PORT = process.env.PORT || 8080;
