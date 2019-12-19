@@ -1,0 +1,4 @@
+- kind: test
+  properties:
+  - name: name
+  - name: timestamp
