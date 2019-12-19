@@ -96,13 +96,15 @@ function startVideo() {
     detections.forEach((detection, i) => {
       console.log(detection);
       try {
-        const details = detection.label.split(" - ");
-        console.log(details);
-        postData(BACKEND_URL + "/new-detection",
-          { 
-            name: details[0],
-            eid: details[1]
-          });
+        if (detection.label != "unknown") {
+          const details = detection.label.split(" - ");
+          console.log(details);
+          postData(BACKEND_URL + "/new-detection",
+            { 
+              name: details[0],
+              eid: details[1]
+            });
+        }
       } catch (error) {
         console.error(error);
       }
