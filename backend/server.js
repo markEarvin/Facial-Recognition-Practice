@@ -18,10 +18,12 @@
 // [START app]
 const bodyParser = require('body-parser');
 const express = require('express');
+var cors = require('cors');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
+app.use(cors());
 
 // export Datasore library
 const {Datastore} = require('@google-cloud/datastore');
@@ -29,13 +31,12 @@ const datastore = new Datastore();
 // we will need this for testing
 const fetch = require('node-fetch');
 
+// local testing
+// const BACKEND_URL = "http://localhost:8080/new-detection";
+// GCP dev
+const BACKEND_URL = "https://nodebackend-dot-august-clover-261601.appspot.com";
+
 app.get('/', async (req, res) => {
-  try {
-    const data = await postData('http://localhost:8080/new-detection', { name: "Earvin", pet: "Doggies" });
-    // console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
   res.send('Hello world! I am alive!');
 });
 
@@ -62,9 +63,9 @@ app.post('/new-detection', (req, res) => {
   });
 
 //   Get all unique detected faces and return JSON object
-app.get('/detections', (req, res) => {
-    let detected = [];
-    res.send({"detected": detected});
+app.get('/detections', async (req, res) => {
+    const [detections] = await getDetections();
+    res.send({"detected": detections});
   });
 
 const getDetections = () => {
@@ -103,14 +104,21 @@ const getTests = () => {
 };
 
 app.get('/tests', async (req, res) => {
+  console.log("/tests");
   const [tests] = await getTests();
-  res.send({"tests": tests});
+  const names = tests.map((testItem) => {
+    return testItem.name;
+  });
+  let unique = [...new Set(names)];
+  console.log(unique);
+
+  res.send({"tests": unique});
 });
 
 
-async function postData(url = '', data = {}) {
+function postData(url = '', data = {}) {
   // Default options are marked with *
-  const response = await fetch(url, {
+  fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -123,7 +131,6 @@ async function postData(url = '', data = {}) {
     referrer: 'no-referrer', // no-referrer, *client
     body: JSON.stringify(data) // body data type must match "Content-Type" header
   });
-  return await response;
 }
 // ends testing here
 
