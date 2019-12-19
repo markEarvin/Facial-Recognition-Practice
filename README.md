@@ -14,3 +14,4 @@ face-api.js — JavaScript API for Face Recognition in the Browser with tensorfl
 NodeJS body parse - https://stackabuse.com/get-http-post-body-in-express-js/
 Fetch API - https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 Making API request with Node Fetch - https://hackersandslackers.com/making-api-requests-with-nodejs/
+NodeJS CORS - https://expressjs.com/en/resources/middleware/cors.html
