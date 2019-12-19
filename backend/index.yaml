@@ -1,4 +1,13 @@
+indexes:
+
 - kind: test
   properties:
-  - name: name
   - name: timestamp
+  - name: eid
+  - name: name
+
+- kind: detections
+  properties:
+  - name: timestamp
+  - name: eid
+  - name: name
