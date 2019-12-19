@@ -65,7 +65,13 @@ app.post('/new-detection', (req, res) => {
 //   Get all unique detected faces and return JSON object
 app.get('/detections', async (req, res) => {
     const [detections] = await getDetections();
-    res.send({"detected": detections});
+    const names = detections.map((detection) => {
+      return detection.name;
+    });
+    let unique = [...new Set(names)];
+    console.log(unique);
+  
+    res.send({"tests": unique});
   });
 
 const getDetections = () => {
@@ -115,23 +121,6 @@ app.get('/tests', async (req, res) => {
   res.send({"tests": unique});
 });
 
-
-function postData(url = '', data = {}) {
-  // Default options are marked with *
-  fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrer: 'no-referrer', // no-referrer, *client
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-}
 // ends testing here
 
 // Listen to the App Engine-specified port, or 8080 otherwise
