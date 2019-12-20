@@ -63,8 +63,6 @@ function startVideo() {
 
  function loadLabeledImages() {
     const gcsBucket = "lala_face_recognition_test";
-    // Family
-    // const labels = ['Ambo', 'Enteng', 'Earvin', 'Kenneth', 'Lala', 'MamaBear', 'Mommy', 'Obo', 'PapaBear'];
     // CPS
     // const labels = [
     //   'Earvin - 11573647',
@@ -76,12 +74,27 @@ function startVideo() {
       'Earvin - 11573647',
       'Bea - 11569979',
       'Eric - 11574654',
-      'Grae - 60013199'
+      'Grae - 60013199',
+      'Jarold S - 11572226',
+      'Von P - 11574452',
+      'Pitt D - 11570099',
+      'Bianca D - 11575842',
+      'JMac - 11570180', //10
+      'Shawn - 60080873',
+      'Boss Don - 007',
+      'Bench - 21690458',
+      'Alain M - 11565117',
+      'Aris - 11565720',
+      'Zai - 60095195',
+      'Sherdon - 21932674',
+      'Sir Jen T - 75001890',
+      'Jo Ma - 21869840',
+      'Joever - 21552635'
     ];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
-        const maxImages = 3;
+        const maxImages = 1;
         for (let i = 1; i <= maxImages; i++) {
           const img = await faceapi.fetchImage(`https://storage.googleapis.com/${gcsBucket}/${label}/${i}.png`);
           const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
