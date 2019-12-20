@@ -93,14 +93,15 @@ function startVideo() {
       'Aldin B - 11570078',
       'Alvert M - 11570112',
       'Maricanne D - 11570294',
-      'Davecyth G - 11570589',
       'Jonnel B - 11570803',
       'Lordwin S - 11565711',
       'Mark Roger - 11566097',
       'Shiela May B - 60121717',
       'Michi - 11570893',
-      'Kenneth Y - 11570084'
+      'Kenneth Y - 11570084',
+      'Peter James - 11570549'
     ];
+    // 'Davecyth G - 11570589', >> matches everybody to Davecyth with 100% accuracy. really weird
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
