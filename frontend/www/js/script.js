@@ -79,7 +79,7 @@ function startVideo() {
       'Von P - 11574452',
       'Pitt D - 11570099',
       'Bianca D - 11575842',
-      'JMac - 11570180', //10
+      'JMac - 11570180', // 10
       'Shawn - 60080873',
       'Boss Don - 007',
       'Bench - 21690458',
@@ -89,7 +89,17 @@ function startVideo() {
       'Sherdon - 21932674',
       'Sir Jen T - 75001890',
       'Jo Ma - 21869840',
-      'Joever - 21552635'
+      'Joever - 21552635', // 20
+      'Aldin B - 11570078',
+      'Alvert M - 11570112',
+      'Maricanne D - 11570294',
+      'Davecyth G - 11570589',
+      'Jonnel B - 11570803',
+      'Lordwin S - 11565711',
+      'Mark Roger - 11566097',
+      'Shiela May B - 60121717',
+      'Michi - 11570893',
+      'Kenneth Y - 11570084'
     ];
     return Promise.all(
       labels.map(async label => {
