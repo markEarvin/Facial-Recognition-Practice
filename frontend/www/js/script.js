@@ -105,11 +105,15 @@ function startVideo() {
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
-        const maxImages = 1;
+        const maxImages = 3;
         for (let i = 1; i <= maxImages; i++) {
-          const img = await faceapi.fetchImage(`https://storage.googleapis.com/${gcsBucket}/${label}/${i}.png`);
-          const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-          if (detections) descriptions.push(detections.descriptor);
+          try {
+            const img = await faceapi.fetchImage(`https://storage.googleapis.com/${gcsBucket}/${label}/${i}.png`);
+            const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+            if (detections) descriptions.push(detections.descriptor);
+          } catch (error) {
+            console.error(error);
+          }
         }
         return new faceapi.LabeledFaceDescriptors(label, descriptions);
       })
