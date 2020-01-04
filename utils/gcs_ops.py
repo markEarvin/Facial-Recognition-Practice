@@ -15,9 +15,13 @@
 # limitations under the License.
 
 import sys
+import hashlib
+import os
 
 # [START storage_list_files]
 from google.cloud import storage
+
+SEP = os.path.sep
 
 
 def list_blobs(bucket_name):
@@ -42,7 +46,7 @@ def list_buckets():
         print(bucket.name)
 
 def upload_blob(bucket_name, path, object_name):
-    """Uploads a file to the bucket."""
+    """Uploads a file to the bucket. object's folder name should be hashed"""
     # bucket_name = "your-bucket-name"
     # path = "local/path/to/file"
     # object_name = "storage-object-name"
@@ -55,9 +59,11 @@ def upload_blob(bucket_name, path, object_name):
 
     print(
         "File {} uploaded to {}.".format(
-            source_file_name, destination_blob_name
+            path, object_name
         )
     )
+    # make public??
+    # blob.make_public() 
 
 def make_blob_public(bucket_name, blob_name):
     """Makes a blob publicly accessible."""
@@ -76,14 +82,75 @@ def make_blob_public(bucket_name, blob_name):
         )
     )
 
-def get_hash(object_name):
-    pass
+def is_image(filename):
+    """
+        Checks if the filename is a valid image file. Currently support PNG and JPG files.
+    """
+    fname = filename.lower()
+    if fname.endswith(".png") or fname.endswith(".jpg") or fname.endswith("jpeg"):
+        return True
+    return False
 
 def scan_for_folders(path="./"):
-    pass
+    ret = []
+    scanned = os.listdir(path)
+    for item in scanned:
+        if os.path.isdir(item):
+            ret.append(item)
+    return ret
 
 def scan_for_files_or_objects(path="./"):
-    pass
+    ret = []
+    scanned = os.listdir(path)
+    for item in scanned:
+        if is_image(item):
+            ret.append(
+                {
+                    "filename": item,
+                    "filepath": os.path.join(os.path.abspath(path), item)
+                }
+            )
+    return ret
+
+def get_hash(message):
+    m = hashlib.sha256()
+    m.update(message)
+    digest = m.hexdigest()
+    return digest
+
+def get_sub_dirs(path="./"):
+    ret = []
+    return ret
+
+def get_files(path="./"):
+    ret = []
+    return ret
+
+def begin_upload():
+    dirs = get_sub_dirs()
+    for sub_dir in dirs:
+        files = get_files(sub_dir)
+        for file_ in files:
+            path = get_hash(sub_dir) + SEP + file_
+            print path
+
+def test_upload_blob():
+    """
+        tests our uploading capability by performing the following:
+        1. scan current wording directory for sub folders
+        2. create a dictionary of all images in the subfolders
+        3. upload each images as blob (SHA256_Digest of parent folder + SEP + filename)
+    """
+    folders = scan_for_folders()
+    bucket = "lala_face_recognition_test"
+    for folder in folders:
+        folder_hash = get_hash(folder)
+        print (folder_hash)
+        files = scan_for_files_or_objects(folder)
+        print (files)
+        for fitem in files:
+            object_name = folder_hash + "/" + fitem.get("filename", "")
+            upload_blob(bucket, fitem.get("filepath", "./"), object_name)
 
 
 
@@ -100,34 +167,37 @@ def print_help():
 # [END storage_list_files]
 
 
-# if __name__ == "__main__":
-#     list_blobs(bucket_name=sys.argv[1])
-
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or sys.argv[1] == "help" or \
-        sys.argv[1] not in ['list', 'create', 'delete', 'get']:
-        print_help()
-        sys.exit()
-    if sys.argv[1] == 'list':
-        if len(sys.argv) == 3:
-            list_objects(sys.argv[2])
-            sys.exit()
-        else:
-            print_help()
-            sys.exit()
-    if sys.argv[1] == 'create':
-        if len(sys.argv) == 4:
-            # create_object(sys.argv[2], sys.argv[3])
-            pass
-            sys.exit()
-        else:
-            print_help()
-            sys.exit()
-    if sys.argv[1] == 'delete':
-        if len(sys.argv) == 4:
-            # delete_object(sys.argv[2], sys.argv[3])
-            pass
-            sys.exit()
-        else:
-            # print_help()
-            sys.exit()
+    # list_blobs(bucket_name=sys.argv[1])
+    # for testing
+    test_upload_blob()
+
+
+# if __name__ == "__main__":
+#     if len(sys.argv) < 2 or sys.argv[1] == "help" or \
+#         sys.argv[1] not in ['list', 'create', 'delete', 'get']:
+#         print_help()
+#         sys.exit()
+#     if sys.argv[1] == 'list':
+#         if len(sys.argv) == 3:
+#             list_objects(sys.argv[2])
+#             sys.exit()
+#         else:
+#             print_help()
+#             sys.exit()
+#     if sys.argv[1] == 'create':
+#         if len(sys.argv) == 4:
+#             # create_object(sys.argv[2], sys.argv[3])
+#             pass
+#             sys.exit()
+#         else:
+#             print_help()
+#             sys.exit()
+#     if sys.argv[1] == 'delete':
+#         if len(sys.argv) == 4:
+#             # delete_object(sys.argv[2], sys.argv[3])
+#             pass
+#             sys.exit()
+#         else:
+#             # print_help()
+#             sys.exit()
