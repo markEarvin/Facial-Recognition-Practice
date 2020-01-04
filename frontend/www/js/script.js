@@ -70,6 +70,7 @@ function startVideo() {
     //   'Eric - 11574654',
     //   'Grae - 60013199'
     // ];
+    // these labels should be pulled from server and hashed
     const labels = [
       'Earvin - 11573647',
       'Bea - 11569979',
@@ -108,6 +109,7 @@ function startVideo() {
         const maxImages = 3;
         for (let i = 1; i <= maxImages; i++) {
           try {
+            // we should be taking the hash digest of the label and set as path of the gcs object
             const img = await faceapi.fetchImage(`https://storage.googleapis.com/${gcsBucket}/${label}/${i}.png`);
             const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
             if (detections) descriptions.push(detections.descriptor);
@@ -155,3 +157,23 @@ function startVideo() {
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
   }
+
+// const text = 'An obscure body in the S-K System, your majesty. The inhabitants refer to it as the planet Earth.';
+
+  async function digestMessage(message) {
+    const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+    return hashHex;
+  }
+
+
+  async function testDigest() {
+    const text = 'An obscure body in the S-K System, your majesty. The inhabitants refer to it as the planet Earth.';
+    const digestBuffer = await digestMessage(text);
+    console.log(digestBuffer);
+    console.log(digestBuffer.byteLength);
+  }
+
+  // testDigest();
