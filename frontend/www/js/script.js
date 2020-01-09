@@ -71,46 +71,49 @@ function startVideo() {
     //   'Grae - 60013199'
     // ];
     // these labels should be pulled from server and hashed
+    // const labels = [
+    //   'Earvin - 11573647',
+    //   'Bea - 11569979',
+    //   'Eric - 11574654',
+    //   'Grae - 60013199',
+    //   'Jarold S - 11572226',
+    //   'Von P - 11574452',
+    //   'Pitt D - 11570099',
+    //   'Bianca D - 11575842',
+    //   'JMac - 11570180', // 10
+    //   'Shawn - 60080873',
+    //   'Boss Don - 007',
+    //   'Bench - 21690458',
+    //   'Alain M - 11565117',
+    //   'Aris - 11565720',
+    //   'Zai - 60095195',
+    //   'Sherdon - 21932674',
+    //   'Sir Jen T - 75001890',
+    //   'Jo Ma - 21869840',
+    //   'Joever - 21552635', // 20
+    //   'Aldin B - 11570078',
+    //   'Alvert M - 11570112',
+    //   'Maricanne D - 11570294',
+    //   'Jonnel B - 11570803',
+    //   'Lordwin S - 11565711',
+    //   'Mark Roger - 11566097',
+    //   'Shiela May B - 60121717',
+    //   'Michi - 11570893',
+    //   'Kenneth Y - 11570084',
+    //   'Peter James - 11570549'
+    // ];
     const labels = [
-      'Earvin - 11573647',
-      'Bea - 11569979',
-      'Eric - 11574654',
-      'Grae - 60013199',
-      'Jarold S - 11572226',
-      'Von P - 11574452',
-      'Pitt D - 11570099',
-      'Bianca D - 11575842',
-      'JMac - 11570180', // 10
-      'Shawn - 60080873',
-      'Boss Don - 007',
-      'Bench - 21690458',
-      'Alain M - 11565117',
-      'Aris - 11565720',
-      'Zai - 60095195',
-      'Sherdon - 21932674',
-      'Sir Jen T - 75001890',
-      'Jo Ma - 21869840',
-      'Joever - 21552635', // 20
-      'Aldin B - 11570078',
-      'Alvert M - 11570112',
-      'Maricanne D - 11570294',
-      'Jonnel B - 11570803',
-      'Lordwin S - 11565711',
-      'Mark Roger - 11566097',
-      'Shiela May B - 60121717',
-      'Michi - 11570893',
-      'Kenneth Y - 11570084',
-      'Peter James - 11570549'
+      'Earvin - 11573647'
     ];
-    // 'Davecyth G - 11570589', >> matches everybody to Davecyth with 100% accuracy. really weird
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
         const maxImages = 3;
+        const labelDigest = await digestMessage(label);
         for (let i = 1; i <= maxImages; i++) {
           try {
             // we should be taking the hash digest of the label and set as path of the gcs object
-            const img = await faceapi.fetchImage(`https://storage.googleapis.com/${gcsBucket}/${label}/${i}.png`);
+            const img = await faceapi.fetchImage(`https://storage.googleapis.com/${gcsBucket}/${labelDigest}/${i}.png`);
             const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
             if (detections) descriptions.push(detections.descriptor);
           } catch (error) {
