@@ -63,7 +63,7 @@ def upload_blob(bucket_name, path, object_name):
         )
     )
     # make public??
-    # blob.make_public() 
+    blob.make_public() 
 
 def make_blob_public(bucket_name, blob_name):
     """Makes a blob publicly accessible."""
