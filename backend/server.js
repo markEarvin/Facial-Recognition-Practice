@@ -36,6 +36,11 @@ const fetch = require('node-fetch');
 // GCP dev
 const BACKEND_URL = "https://nodebackend-dot-august-clover-261601.appspot.com";
 
+// TODO: 
+// * create an API that will return an array of Name - Emp ID pair as strings
+// example: ["Earvin - 123456", "Lala - 654321"]
+// * prerequisite: there should already be a DB of Users with Name and Emp Id fields at the least
+
 app.get('/', async (req, res) => {
   res.send('Hello world! I am alive!');
 });
