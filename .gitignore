@@ -8,3 +8,7 @@ logs/
 *.pb
 .idea/
 .nyc_output
+.csv
+.png
+.jpg
+.jpeg
