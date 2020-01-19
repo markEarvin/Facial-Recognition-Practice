@@ -48,15 +48,17 @@ def get_random_number(seed_value = 1):
 
 def upload_entries(rows, client=None):
     print (len(rows))
-    # tasks = []
-    # try:
-    #     for entry in rows:
-    #         task = datastore.Entity(client.key('Employee', entry.get("eid", get_random_number())))
-    #         task.update(entry)
-    #         tasks.append(task)
-    #     client.put_multi(tasks)
-    # except Exception as e:
-    #     print (e)
+    tasks = []
+    try:
+        for entry in rows:
+            task = datastore.Entity(client.key('Employee', entry.get("eid", get_random_number())))
+            task.update(entry)
+            tasks.append(task)
+        # based on testing, this uploads the data and is encoded to base64 on the fly.
+        # meaning each query will have to use base64 encoded strings to adapt to the Entities.
+        client.put_multi(tasks)
+    except Exception as e:
+        print (e)
 
 def main(project_id, path):
     client = datastore.Client(project_id)
